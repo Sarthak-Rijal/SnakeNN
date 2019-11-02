@@ -32,10 +32,35 @@ class cube(object):
             circleMiddle2 = (i*dis + dis -radius*2, j*dis+8)
             pygame.draw.circle(surface, (0,0,0), circleMiddle, radius)
             pygame.draw.circle(surface, (0,0,0), circleMiddle2, radius)
+            
+            pygame.draw.line(surface, (0,255,0), (i*dis, j*dis + centre),(0, j*dis + centre ))
+            pygame.draw.line(surface, (0,255,0), (i*dis, j*dis + centre),(500, j*dis + centre ))
+            
+            pygame.draw.line(surface, (0,255,0), (i*dis + centre, j*dis ),(i*dis + centre, 0 ))
+            pygame.draw.line(surface, (0,255,0), (i*dis + centre, j*dis ),(i*dis + centre, 500 ))
 
-            pygame.draw.line(surface, (0,255,0), (x,0),(x,w))
-            pygame.draw.line(surface, (0,255,0), (0,y),(w,y))
-        
+            pygame.draw.line(surface, (0,255,0), (i*dis + centre, j*dis + centre ),(i*dis + centre + 500, j*dis + centre + 500 ))
+            pygame.draw.line(surface, (0,255,0), (i*dis + centre, j*dis + centre ),(i*dis + centre - 500, j*dis + centre - 500 ))
+            
+            pygame.draw.line(surface, (0,255,0), (i*dis + centre, j*dis + centre ),(i*dis + centre + 500, j*dis + centre - 500 ))
+            pygame.draw.line(surface, (0,255,0), (i*dis + centre, j*dis + centre ),(i*dis + centre - 500, j*dis + centre + 500 ))
+
+
+            
+
+            #pygame.draw.line(surface, (0,255,0), (i*dis + centre, j*dis ),(500,0))
+
+            #pygame.draw.line(surface, (0,255,0), (i*dis + centre, j*dis ),(i*dis + centre, 0 ))
+            #pygame.draw.line(surface, (0,255,0), (i*dis + centre, j*dis ),(i*dis + centre, 500 ))
+
+            
+            #pygame.draw.line(surface, (0,255,0), (i*dis, j*dis+10),(i*dis + i*dis, j*dis + 10 ))
+                        
+            #pygame.draw.line(surface, (0,255,0), (i*dis, j*dis+10),(5, j*dis + 10 ))
+            #pygame.draw.line(surface, (0,255,0), (i*dis, j*dis+10),(5, j*dis + 10 ))
+            #pygame.draw.line(surface, (0,255,0), (i*dis, j*dis+10),(5, j*dis + 10 ))
+                    #pygame.draw.line(surface, (255,255,255), (x,0),(x,w))
+
         
 
 
@@ -133,8 +158,7 @@ class snake(object):
 
     def draw(self, surface):
 
-        pygame.draw.line(
-        )
+        
         for i, c in enumerate(self.body):
             if i ==0:
                 c.draw(surface, True)
@@ -202,9 +226,10 @@ def main():
     clock = pygame.time.Clock()
     
     while flag:
-        pygame.time.delay(50)
+        pygame.time.delay(500)
         clock.tick(10)
         s.move()
+        print(s.head.pos)
         if s.body[0].pos == snack.pos:
             s.addCube()
             snack = cube(randomSnack(rows, s), color=(0,255,0))
