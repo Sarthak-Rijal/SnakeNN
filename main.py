@@ -150,8 +150,8 @@ def randomSnack(rows, item):
     positions = item.body
 
     while True:
-        x = random.randrange(rows)
-        y = random.randrange(rows)
+        x = random.randrange(1,rows-1)
+        y = random.randrange(1,rows-1)
         if len(list(filter(lambda z:z.pos == (x,y), positions))) > 0:
             continue
         else:
@@ -189,6 +189,10 @@ def main():
         if s.body[0].pos == snack.pos:
             s.addCube()
             snack = cube(randomSnack(rows, s), color=(0,255,0))
+
+        if ( (s.head.pos[0] == 0 or s.head.pos[0] == 19) or (s.head.pos[1] == 0 or s.head.pos[1] == 19)):
+            print('Score: ', len(s.body))
+            s.reset((10,10))
 
         for x in range(len(s.body)):
             if s.body[x].pos in list(map(lambda z:z.pos,s.body[x+1:])):
