@@ -97,15 +97,6 @@ class snake(object):
         self.turns[self.head.pos[:]] = [self.dirnx, self.dirny]
 
     def detectwall(self):
-        # for event in pygame.event.get():
-        #     if keys[pygame.K_LEFT]:
-        #         print(abs(1-self.head.pos(0)))
-        #     elif keys[pygame.K_RIGHT]:
-        #         print(abs(19-self.head.pos(0)))
-        #     elif keys[pygame.K_UP]:
-        #         print(abs(1-self.head.pos(1)))
-        #     elif keys[pygame.K_DOWN]:
-        #         print(abs(19-self.head.pos(1)))
         rightborder = abs(19-self.head.pos[0])
         leftborder = abs(0-self.head.pos[0])
         upborder = abs(0-self.head.pos[1])
