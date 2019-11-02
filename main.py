@@ -1,6 +1,7 @@
 import math
 import random
 import pygame
+import math
 import tkinter as tk
 from tkinter import messagebox
 
@@ -158,7 +159,6 @@ class snake(object):
 
     def draw(self, surface):
 
-        
         for i, c in enumerate(self.body):
             if i ==0:
                 c.draw(surface, True)
@@ -229,11 +229,20 @@ def main():
         pygame.time.delay(500)
         clock.tick(10)
         s.move()
-        print(s.head.pos)
         if s.body[0].pos == snack.pos:
             s.addCube()
             snack = cube(randomSnack(rows, s), color=(0,255,0))
 
+            
+        if (s.head.pos[0] - snack.pos[0] == 0 or s.head.pos[1] - snack.pos[1] == 0):
+           print("Seen")
+        elif(abs((s.head.pos[1] - snack.pos[1]) / (s.head.pos[0] - snack.pos[0])) == 1):
+            print("Seen")
+
+
+        #if (s.head.pos[0] - snack.pos[0] == 0 and s.head.pos[0] > snack.pos[0]):
+        #print("Detect Up")
+        #boarder
         if ( (s.head.pos[0] == 0 or s.head.pos[0] == 19) or (s.head.pos[1] == 0 or s.head.pos[1] == 19)):
             print('Score: ', len(s.body))
             s.reset((10,10))
