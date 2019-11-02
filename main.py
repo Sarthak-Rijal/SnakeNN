@@ -46,6 +46,26 @@ class snake(object):
         self.dirnx = 0
         self.dirny = 1
 
+    def moveLeft(self):
+        self.dirnx = -1
+        self.dirny = 0
+        self.turns[self.head.pos[:]] = [self.dirnx, self.dirny]
+
+    def moveRight(self):
+        self.dirnx = 1
+        self.dirny = 0
+        self.turns[self.head.pos[:]] = [self.dirnx, self.dirny]
+    
+    def moveup(self):
+        self.dirnx = 0
+        self.dirny = -1
+        self.turns[self.head.pos[:]] = [self.dirnx, self.dirny]
+
+    def movedown(self):
+        self.dirnx = 0
+        self.dirny = 1
+        self.turns[self.head.pos[:]] = [self.dirnx, self.dirny]
+
     def move(self):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -55,24 +75,16 @@ class snake(object):
 
             for key in keys:
                 if keys[pygame.K_LEFT]:
-                    self.dirnx = -1
-                    self.dirny = 0
-                    self.turns[self.head.pos[:]] = [self.dirnx, self.dirny]
+                    self.moveLeft()
 
                 elif keys[pygame.K_RIGHT]:
-                    self.dirnx = 1
-                    self.dirny = 0
-                    self.turns[self.head.pos[:]] = [self.dirnx, self.dirny]
+                    self.moveRight()
 
                 elif keys[pygame.K_UP]:
-                    self.dirnx = 0
-                    self.dirny = -1
-                    self.turns[self.head.pos[:]] = [self.dirnx, self.dirny]
+                    self.moveup()
 
                 elif keys[pygame.K_DOWN]:
-                    self.dirnx = 0
-                    self.dirny = 1
-                    self.turns[self.head.pos[:]] = [self.dirnx, self.dirny]
+                    self.movedown()
 
         for i, c in enumerate(self.body):
             p = c.pos[:]
