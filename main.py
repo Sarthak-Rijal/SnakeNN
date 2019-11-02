@@ -95,6 +95,23 @@ class snake(object):
         self.dirny = 1
         self.turns[self.head.pos[:]] = [self.dirnx, self.dirny]
 
+    def detectwall(self):
+        # for event in pygame.event.get():
+        #     if keys[pygame.K_LEFT]:
+        #         print(abs(1-self.head.pos(0)))
+        #     elif keys[pygame.K_RIGHT]:
+        #         print(abs(19-self.head.pos(0)))
+        #     elif keys[pygame.K_UP]:
+        #         print(abs(1-self.head.pos(1)))
+        #     elif keys[pygame.K_DOWN]:
+        #         print(abs(19-self.head.pos(1)))
+        rightborder = abs(19-self.head.pos[0])
+        leftborder = abs(0-self.head.pos[0])
+        upborder = abs(0-self.head.pos[1])
+        downborder = abs(19-self.head.pos[1])
+        return ((leftborder, rightborder),(upborder,downborder))
+
+
     def move(self):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -229,7 +246,7 @@ def main():
         pygame.time.delay(500)
         clock.tick(10)
         s.move()
-        print(s.head.pos)
+        # print(s.head.pos)
         if s.body[0].pos == snack.pos:
             s.addCube()
             snack = cube(randomSnack(rows, s), color=(0,255,0))
@@ -244,7 +261,7 @@ def main():
                 s.reset((10,10))
                 break
 
-            
+        print(s.detectwall())
         redrawWindow(win)
 
 main()
