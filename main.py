@@ -32,6 +32,10 @@ class cube(object):
             circleMiddle2 = (i*dis + dis -radius*2, j*dis+8)
             pygame.draw.circle(surface, (0,0,0), circleMiddle, radius)
             pygame.draw.circle(surface, (0,0,0), circleMiddle2, radius)
+
+            pygame.draw.line(surface, (0,255,0), (x,0),(x,w))
+            pygame.draw.line(surface, (0,255,0), (0,y),(w,y))
+        
         
 
 
@@ -128,6 +132,9 @@ class snake(object):
         
 
     def draw(self, surface):
+
+        pygame.draw.line(
+        )
         for i, c in enumerate(self.body):
             if i ==0:
                 c.draw(surface, True)
