@@ -3,10 +3,8 @@ import numpy as np
 
 """
 fitness = # num of times it bounces
-A chromosome which expresses a possible solution to the problem as a string
-A fitness function which takes a chromosome as input and returns a higher value for better solutions (much more likely to reproduce)
+gitA fitness function which takes a chromosome as input and returns a higher value for better solutions (much more likely to reproduce)
 A population which is just a set of many chromosomes
-A selection method which determines how parents are selected for breeding from the population
 A crossover operation which determines how parents combine to produce offspring
 A mutation operation which determines how random deviations manifest themselves
 """
@@ -17,7 +15,7 @@ A mutation operation which determines how random deviations manifest themselves
 #             x_ball/width                           range (0 to 1))
 
 
-#states 
+#states
 #output = # -1 0 1 scalar which way to go
 
 #linear model 
@@ -25,58 +23,45 @@ A mutation operation which determines how random deviations manifest themselves
 # (1x4) * (4x1) = (1x1)
 # A = (a1 a2 a3 a4) lets create a linear constraint where a has a possible value between (-1 to 1)
 
-#inital population is randomly generated A's
-#we then run through each one calculate fitness
 
+#create chromosome with 64 bits of information
 class Gene(object):
-    n = 8 
-    hidden_size = 16
-    input_size = 4
-    var = input_size*hidden_size + 2*hidden_size + 1
-    weight_min = -1
-    weight_max = 1
-    def __init__(self, alleles=None):
-        if alleles:
-            self.alleles = alleles
-        else:
-            self.alleles = [random.randint(0, 1) for i in range(Gene.var*Gene.n)]
 
-    def numpy_values(self):
-        vals = []
-        for i in range(Gene.var):
-            vals.append(int("".join([str(g) for g in self.alleles[i*Gene.n:(i+1)*Gene.n]]), 2)*(Gene.weight_max-Gene.weight_min)/2**Gene.n + Gene.weight_min)
-        return np.array(vals)
+    n = 64
+    def __init__(self):
+        self.alleles = []
+        for i in range(Gene.n):
+            self.alleles.append(random.randint(0,1))
 
+   
     # default chance of mutation is 1%
-    def _mutate(self, alleles, chance=0.01):
-        new_alleles = []
-        for i in range(Gene.var*Gene.n):
-            if random.random() < chance and i % Gene.n != 0:
-                stored = new_alleles.pop()
-                new_alleles.append(alleles[i])
-                new_alleles.append(stored)
+    def mutate(self, chance=0.01):
+        changed = []
+        for i in range(Gene.n):
+            if ((1/(random.randint(1, 100)) == chance)):
+                changed.append(i)
+                if (self.alleles[i] == 0):
+                    self.alleles[i] = 1
+                else:
+                    self.alleles[i] = 0 
+        print(changed)
+
+        
+
+    #corsses over this and the other allales
+    def crossover(self, other, chance = 0.5):
+        changed = []
+        for i in range(Gene.n):
+
+            if (random.randint(1,100)) / 100 >= .5:
+                changed.append(i)
+
+                temp = self.alleles[i]
+                self.alleles[i] = other.alleles[i]
+                other.alleles[i] = temp
             else:
-                new_alleles.append(alleles[i])
-        return new_alleles
+                changed.append(0)
 
 
-
-    def _crossover(self, other):
-        alleles = []
-        for i in range(Gene.var*Gene.n):
-            if random.randint(0, 1) > 0:
-                alleles.append(self.alleles[i])
-            else:
-                alleles.append(other.alleles[i])
-        alleles = self._mutate(alleles)
-        return Gene(alleles=alleles)
-
-    #returns list of children (Gene object)
-    def crossover(self, other, n_children=50):
-        lst = []
-        for i in range(n_children):
-            lst.append(self._crossover(other))
-        return lst
-
-
+        
     
