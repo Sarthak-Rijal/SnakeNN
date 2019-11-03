@@ -102,10 +102,11 @@ class snake(object):
         leftborder = abs(0-self.head.pos[0])
         upborder = abs(0-self.head.pos[1])
         downborder = abs(19-self.head.pos[1])
-        return (leftborder, rightborder, upborder,downborder)
+        return (upborder, rightborder, downborder, leftborder)
     
     def detectbody(self):
         # walltosnake = self.detectwall()
+        [up, ri, do, le] = [0, 0, 0, 0]
         for x in range(len(self.body)):
             rightbody = range((self.body[0].pos[0]+1), 19)
             leftbody = range(0, self.body[0].pos[0])
@@ -113,16 +114,18 @@ class snake(object):
             downbody = range(self.body[0].pos[1]+1, 19)
             for y in range(len(rightbody)):
                 if(rightbody[y] == self.body[x].pos[0]):
-                    print("Body in right")
+                    ri = 1
             for z in range(len(leftbody)):
                 if(leftbody[z] == self.body[x].pos[0]):
-                    print("Body is in left")
+                    le = 1
             for w in range(len(upbody)):
                 if(upbody[w] == self.body[x].pos[1]):
-                    print("Body is up")
+                    up = 1
             for u in range(len(downbody)):
                 if(downbody[u] == self.body[x].pos[1]):
-                    print("Body is down")        
+                    do = 1    
+
+        return [up, ri, do, le]    
                 
                 
 
@@ -261,18 +264,32 @@ def main():
         pygame.time.delay(500)
         clock.tick(10)
         s.move()
-
+        [d1, d2, d3, d4] = [False,  False, False, False]
         if s.body[0].pos == snack.pos:
             s.addCube()
             snack = cube(randomSnack(rows, s), color=(0,255,0))
 
             
-        if (s.head.pos[0] - snack.pos[0] == 0 or s.head.pos[1] - snack.pos[1] == 0):
-           print("Seen")
-        elif(abs((s.head.pos[1] - snack.pos[1]) / (s.head.pos[0] - snack.pos[0])) == 1):
-            print("Seen")
+        if  not ((s.head.pos[1] - snack.pos[1] == 0) or (s.head.pos[0] - snack.pos[0]) == 0):
+            if((s.head.pos[0] - snack.pos[0] <= 0) and  (s.head.pos[1] - snack.pos[1] >=0) and (abs((s.head.pos[1] - snack.pos[1]) / (s.head.pos[0] - snack.pos[0])) == 1)):
+                d1 = True
+            elif((s.head.pos[0] - snack.pos[0] <= 0) and (s.head.pos[1] - snack.pos[1] <=0) and ((s.head.pos[1] - snack.pos[1]) / (s.head.pos[0] - snack.pos[0])) == 1):
+                d2 = True
+            elif((s.head.pos[0] - snack.pos[0] >= 0) and (s.head.pos[1] - snack.pos[1] <=0) and (abs((s.head.pos[1] - snack.pos[1]) / (s.head.pos[0] - snack.pos[0])) == 1)):
+                d3 = True
+            elif((s.head.pos[0] - snack.pos[0] >= 0) and (s.head.pos[1] - snack.pos[1] >=0) and ((s.head.pos[1] - snack.pos[1]) / (s.head.pos[0] - snack.pos[0])) == 1):
+                d4 =True
 
-        print(s.detectbody())
+        headtoborder = s.detectwall()   #(s.head.pos[1] - snack.pos[1] == 0) and (s.head.pos[1] - snack.pos[1] >= 0)
+        bodypos = s.detectbody()
+        snakemov ={("v1: ":(headtoborder[0],"bodyup": bodypos[0], "foodup" : int(((s.head.pos[0] - snack.pos[0] == 0) and (s.head.pos[0] - snack.pos[0] >= 0)))))
+                    ,("v2: ":("food" : d1))
+                    ,("v3: ": ("distright":headtoborder[1],"bodyright": bodypos[1], "foodright": int((s.head.pos[1] - snack.pos[1] == 0) and (s.head.pos[1] - snack.pos[1] >= 0)))
+                    ,("v4: ", d2)
+                    ,("v5: ", headtoborder[2], bodypos[2], (s.head.pos[0] - snack.pos[0] == 0) and (s.head.pos[0] - snack.pos[0] <= 0))
+                    ,("v6: ", d3)
+                    ,("v7: ", headtoborder[3], bodypos[3], (s.head.pos[1] - snack.pos[1] == 0) and (s.head.pos[1] - snack.pos[1] <= 0))
+                    ,("v8: ", d4)}
         #if (s.head.pos[0] - snack.pos[0] == 0 and s.head.pos[0] > snack.pos[0]):
         #print("Detect Up")
         #boarder
@@ -285,8 +302,6 @@ def main():
                 print('Score: ', len(s.body))
                 s.reset((10,10))
                 break
-
-        print(s.detectwall())
         redrawWindow(win)
 
 main()
