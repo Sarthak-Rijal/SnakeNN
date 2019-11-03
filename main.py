@@ -107,11 +107,22 @@ class snake(object):
     def detectbody(self):
         # walltosnake = self.detectwall()
         for x in range(len(self.body)):
-            print(len(self.body))
-            rightbody = range(self.body[0].pos[0], 19)
+            rightbody = range((self.body[0].pos[0]+1), 19)
+            leftbody = range(0, self.body[0].pos[0])
+            upbody = range(0, self.body[0].pos[1])
+            downbody = range(self.body[0].pos[1]+1, 19)
             for y in range(len(rightbody)):
                 if(rightbody[y] == self.body[x].pos[0]):
                     print("Body in right")
+            for z in range(len(leftbody)):
+                if(leftbody[z] == self.body[x].pos[0]):
+                    print("Body is in left")
+            for w in range(len(upbody)):
+                if(upbody[w] == self.body[x].pos[1]):
+                    print("Body is up")
+            for u in range(len(downbody)):
+                if(downbody[u] == self.body[x].pos[1]):
+                    print("Body is down")        
                 
                 
 
