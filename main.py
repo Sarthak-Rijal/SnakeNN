@@ -62,10 +62,7 @@ class cube(object):
             #pygame.draw.line(surface, (0,255,0), (i*dis, j*dis+10),(5, j*dis + 10 ))
                     #pygame.draw.line(surface, (255,255,255), (x,0),(x,w))
 
-        
-
-
-
+    
 class snake(object):
     body = []
     turns = {}
