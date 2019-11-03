@@ -73,6 +73,7 @@ class snake(object):
         self.color = color
         self.head = cube(pos)
         self.body.append(self.head)
+        
         self.dirnx = 0
         self.dirny = 1
 
@@ -101,7 +102,19 @@ class snake(object):
         leftborder = abs(0-self.head.pos[0])
         upborder = abs(0-self.head.pos[1])
         downborder = abs(19-self.head.pos[1])
-        return ((leftborder, rightborder),(upborder,downborder))
+        return (leftborder, rightborder, upborder,downborder)
+    
+    def detectbody(self):
+        # walltosnake = self.detectwall()
+        for x in range(len(self.body)):
+            print(len(self.body))
+            rightbody = range(self.body[0].pos[0], 19)
+            for y in range(len(rightbody)):
+                if(rightbody[y] == self.body[x].pos[0]):
+                    print("Body in right")
+                
+                
+
 
 
     def move(self):
@@ -248,7 +261,7 @@ def main():
         elif(abs((s.head.pos[1] - snack.pos[1]) / (s.head.pos[0] - snack.pos[0])) == 1):
             print("Seen")
 
-
+        print(s.detectbody())
         #if (s.head.pos[0] - snack.pos[0] == 0 and s.head.pos[0] > snack.pos[0]):
         #print("Detect Up")
         #boarder
