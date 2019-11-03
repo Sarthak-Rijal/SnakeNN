@@ -282,9 +282,9 @@ def main():
 
         headtoborder = s.detectwall()   #(s.head.pos[1] - snack.pos[1] == 0) and (s.head.pos[1] - snack.pos[1] >= 0)
         bodypos = s.detectbody()
-        snakemov ={("v1: ":(headtoborder[0],"bodyup": bodypos[0], "foodup" : int(((s.head.pos[0] - snack.pos[0] == 0) and (s.head.pos[0] - snack.pos[0] >= 0)))))
-                    ,("v2: ":("food" : d1))
-                    ,("v3: ": ("distright":headtoborder[1],"bodyright": bodypos[1], "foodright": int((s.head.pos[1] - snack.pos[1] == 0) and (s.head.pos[1] - snack.pos[1] >= 0)))
+        snakemov ={("v1: ":(headtoborder[0], bodypos[0], int(((s.head.pos[0] - snack.pos[0] == 0) and (s.head.pos[0] - snack.pos[0] >= 0)))))
+                    ,("v2: ":(d1))
+                    ,("v3: ": (headtoborder[1],bodypos[1], int(((s.head.pos[1] - snack.pos[1] == 0) and (s.head.pos[1] - snack.pos[1] >= 0)))
                     ,("v4: ", d2)
                     ,("v5: ", headtoborder[2], bodypos[2], (s.head.pos[0] - snack.pos[0] == 0) and (s.head.pos[0] - snack.pos[0] <= 0))
                     ,("v6: ", d3)
