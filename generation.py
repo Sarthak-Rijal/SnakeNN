@@ -30,7 +30,7 @@ class Generation(object):
 
 def main():
     one = Generation(10)
-    print(one.fitnessFunction(100,3))
+
 
 
 main()
