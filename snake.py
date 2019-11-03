@@ -106,13 +106,14 @@ class snake(object):
             self.reset((10,10))
             return True
         else:
-            return False
+            return
 
         for x in range(len(self.body)):
             if self.body[x].pos in list(map(lambda z:z.pos,self.body[x+1:])):
                 print('Score: ', len(self.body))
                 self.reset((10,10))
                 return True
+                break
             else:
                 return False
 
