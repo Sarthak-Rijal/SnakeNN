@@ -14,6 +14,8 @@ class cube(object):
         self.dirny = 0
         self.color = color
 
+
+
         
     def move(self, dirnx, dirny):
         self.dirnx = dirnx
@@ -69,6 +71,9 @@ class cube(object):
 class snake(object):
     body = []
     turns = {}
+
+    vision = {'v1':[], 'v2':[], 'v3':[], 'v4':[], 'v5':[], 'v6':[], 'v7':[], 'v8':[]}
+
     def __init__(self, color, pos):
         self.color = color
         self.head = cube(pos)
@@ -76,6 +81,9 @@ class snake(object):
         
         self.dirnx = 0
         self.dirny = 1
+
+    def getVision(self):
+        return self.vision
 
     def moveLeft(self):
         self.dirnx = -1
@@ -125,13 +133,51 @@ class snake(object):
                 if(downbody[u] == self.body[x].pos[1]):
                     do = 1    
 
-        return [up, ri, do, le]    
+        return [up, ri, do, le]   
+
+    def seeingAlgo(self, snackPos):
+
+        d1, d2, d3, d4 = [False, False, False, False]
+    
+        if  not ((self.head.pos[1] - snackPos[1] == 0) or (self.head.pos[0] - snackPos[0]) == 0):
+            if((self.head.pos[0] - snackPos[0] <= 0) and  (self.head.pos[1] - snackPos[1] >=0) and (abs((self.head.pos[1] - snackPos[1]) / (self.head.pos[0] - snackPos[0])) == 1)):
+                d1 = True
+            elif((self.head.pos[0] - snackPos[0] <= 0) and (self.head.pos[1] - snackPos[1] <=0) and ((self.head.pos[1] - snackPos[1]) / (self.head.pos[0] - snackPos[0])) == 1):
+                d2 = True
+            elif((self.head.pos[0] - snackPos[0] >= 0) and (self.head.pos[1] - snackPos[1] <=0) and (abs((self.head.pos[1] - snackPos[1]) / (self.head.pos[0] - snackPos[0])) == 1)):
+                d3 = True
+            elif((self.head.pos[0] - snackPos[0] >= 0) and (self.head.pos[1] - snackPos[1] >=0) and ((self.head.pos[1] - snackPos[1]) / (self.head.pos[0] - snackPos[0])) == 1):
+                d4 =True
+
+        headtoborder = self.detectwall()   #(self.head.pos[1] - snackPos[1] == 0) and (self.head.pos[1] - snackPos[1] >= 0)
+        bodypos = self.detectbody()
+        
+        self.vision['v1'] = [headtoborder[0], bodypos[0], int(((self.head.pos[0] - snackPos[0] == 0) and (self.head.pos[0] - snackPos[0] >= 0)))]
+        self.vision['v2'] = int(d1)
+        self.vision['v3'] = [headtoborder[1], bodypos[1], int(((self.head.pos[1] - snackPos[1] == 0) and (self.head.pos[1] - snackPos[1] >= 0)))]
+        self.vision['v4'] = int(d2)
+        self.vision['v5'] = [headtoborder[2], bodypos[2], int(((self.head.pos[0] - snackPos[0] == 0) and (self.head.pos[0] - snackPos[0] <= 0)))]
+        self.vision['v6'] = int(d3)
+        self.vision['v7'] = [headtoborder[3], bodypos[3], int(((self.head.pos[0] - snackPos[0] == 0) and (self.head.pos[0] - snackPos[0] >= 0)))]
+        self.vision['v8'] = int(d4)
+
+
+        
+        # snakemov ={("v1: ":(headtoborder[0], bodypos[0], int(((self.head.pos[0] - self.snackPos[0] == 0) and (self.head.pos[0] - self.snackPos[0] >= 0)))))
+        #             ,("v2: ":(d1))
+        #             ,("v3: ": (headtoborder[1],bodypos[1], int(((self.head.pos[1] - self.snackPos[1] == 0) and (self.head.pos[1] - self.snackPos[1] >= 0)))
+        #             ,("v4: ", d2)
+        #             ,("v5: ", headtoborder[2], bodypos[2], (self.head.pos[0] - self.snackPos[0] == 0) and (self.head.pos[0] - self.snackPos[0] <= 0))
+        #             ,("v6: ", d3)
+        #             ,("v7: ", headtoborder[3], bodypos[3], int((self.head.pos[1] - self.snackPos[1] == 0) and (self.head.pos[1] - self.snackPos[1] <= 0)))
+        #             ,("v8: ", d4)}
+        # #if (s.head.pos[0] - self.snackPos[0] == 0 and s.head.pos[0] > self.snackPos[0]):
+        # #print("Detect Up")
+        # #boarder 
                 
-                
+        
 
-
-
-    def move(self):
+    def move(self, snackPos):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
@@ -151,6 +197,11 @@ class snake(object):
                 elif keys[pygame.K_DOWN]:
                     self.movedown()
 
+
+        self.seeingAlgo(snackPos)
+
+        
+
         for i, c in enumerate(self.body):
             p = c.pos[:]
             if p in self.turns:
@@ -164,6 +215,7 @@ class snake(object):
                 elif c.dirny == 1 and c.pos[1] >= c.rows-1: c.pos = (c.pos[0], 0)
                 elif c.dirny == -1 and c.pos[1] <= 0: c.pos = (c.pos[0],c.rows-1)
                 else: c.move(c.dirnx,c.dirny)
+        
         
 
     def reset(self, pos):
@@ -254,8 +306,10 @@ def main():
     width = 500
     rows = 20
     win = pygame.display.set_mode((width, width))
+    
     s = snake((255,0,0), (10,10))
     snack = cube(randomSnack(rows, s), color=(0,255,0))
+
     flag = True
 
     clock = pygame.time.Clock()
@@ -263,36 +317,12 @@ def main():
     while flag:
         pygame.time.delay(500)
         clock.tick(10)
-        s.move()
-        [d1, d2, d3, d4] = [False,  False, False, False]
+        s.move(snack.pos)
+
         if s.body[0].pos == snack.pos:
             s.addCube()
             snack = cube(randomSnack(rows, s), color=(0,255,0))
 
-            
-        if  not ((s.head.pos[1] - snack.pos[1] == 0) or (s.head.pos[0] - snack.pos[0]) == 0):
-            if((s.head.pos[0] - snack.pos[0] <= 0) and  (s.head.pos[1] - snack.pos[1] >=0) and (abs((s.head.pos[1] - snack.pos[1]) / (s.head.pos[0] - snack.pos[0])) == 1)):
-                d1 = True
-            elif((s.head.pos[0] - snack.pos[0] <= 0) and (s.head.pos[1] - snack.pos[1] <=0) and ((s.head.pos[1] - snack.pos[1]) / (s.head.pos[0] - snack.pos[0])) == 1):
-                d2 = True
-            elif((s.head.pos[0] - snack.pos[0] >= 0) and (s.head.pos[1] - snack.pos[1] <=0) and (abs((s.head.pos[1] - snack.pos[1]) / (s.head.pos[0] - snack.pos[0])) == 1)):
-                d3 = True
-            elif((s.head.pos[0] - snack.pos[0] >= 0) and (s.head.pos[1] - snack.pos[1] >=0) and ((s.head.pos[1] - snack.pos[1]) / (s.head.pos[0] - snack.pos[0])) == 1):
-                d4 =True
-
-        headtoborder = s.detectwall()   #(s.head.pos[1] - snack.pos[1] == 0) and (s.head.pos[1] - snack.pos[1] >= 0)
-        bodypos = s.detectbody()
-        snakemov ={("v1: ":(headtoborder[0], bodypos[0], int(((s.head.pos[0] - snack.pos[0] == 0) and (s.head.pos[0] - snack.pos[0] >= 0)))))
-                    ,("v2: ":(d1))
-                    ,("v3: ": (headtoborder[1],bodypos[1], int(((s.head.pos[1] - snack.pos[1] == 0) and (s.head.pos[1] - snack.pos[1] >= 0)))
-                    ,("v4: ", d2)
-                    ,("v5: ", headtoborder[2], bodypos[2], (s.head.pos[0] - snack.pos[0] == 0) and (s.head.pos[0] - snack.pos[0] <= 0))
-                    ,("v6: ", d3)
-                    ,("v7: ", headtoborder[3], bodypos[3], (s.head.pos[1] - snack.pos[1] == 0) and (s.head.pos[1] - snack.pos[1] <= 0))
-                    ,("v8: ", d4)}
-        #if (s.head.pos[0] - snack.pos[0] == 0 and s.head.pos[0] > snack.pos[0]):
-        #print("Detect Up")
-        #boarder
         if ( (s.head.pos[0] == 0 or s.head.pos[0] == 19) or (s.head.pos[1] == 0 or s.head.pos[1] == 19)):
             print('Score: ', len(s.body))
             s.reset((10,10))
