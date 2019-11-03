@@ -3,10 +3,8 @@ import numpy as np
 
 """
 fitness = # num of times it bounces
-A chromosome which expresses a possible solution to the problem as a string
-A fitness function which takes a chromosome as input and returns a higher value for better solutions (much more likely to reproduce)
+gitA fitness function which takes a chromosome as input and returns a higher value for better solutions (much more likely to reproduce)
 A population which is just a set of many chromosomes
-A selection method which determines how parents are selected for breeding from the population
 A crossover operation which determines how parents combine to produce offspring
 A mutation operation which determines how random deviations manifest themselves
 """
@@ -25,8 +23,6 @@ A mutation operation which determines how random deviations manifest themselves
 # (1x4) * (4x1) = (1x1)
 # A = (a1 a2 a3 a4) lets create a linear constraint where a has a possible value between (-1 to 1)
 
-#inital population is randomly generated A's
-#we then run through each one calculate fitness
 
 #create chromosome with 64 bits of information
 class Gene(object):
@@ -69,4 +65,3 @@ class Gene(object):
 
         
     
-main()
