@@ -48,8 +48,8 @@ class Gene(object):
 
         
 
+    #corsses over this and the other allales
     def crossover(self, other, chance = 0.5):
-        
         changed = []
         for i in range(Gene.n):
 
