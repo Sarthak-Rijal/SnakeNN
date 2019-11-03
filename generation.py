@@ -23,7 +23,7 @@ class Generation(object):
         for i in range(self.population):
             color = (255,0,0)
             startingPos = (10,10)
-            self.train_snakes.append((snake(color, startingPos)))
+            self.train_snakes.appendleft((snake(color, startingPos)))
       
         #self.init()
     def fitnessFunction(self, steps, apples):

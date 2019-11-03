@@ -2,6 +2,7 @@ import math
 import random
 import pygame
 from cube import *
+from gene import *
 import math
 import tkinter as tk
 from tkinter import messagebox
@@ -20,6 +21,11 @@ class snake(object):
         self.dirnx = 0
         self.dirny = 1
 
+        self.g = Gene()
+
+    def makeNewGene(self):
+        self.g = Gene()
+        
     def getVision(self):
         return self.vision
 
@@ -101,21 +107,27 @@ class snake(object):
         
     def dead(self):
 
+        
         if ( (self.head.pos[0] == 0 or self.head.pos[0] == 19) or (self.head.pos[1] == 0 or self.head.pos[1] == 19)):
             print('Score: ', len(self.body))
             self.reset((10,10))
             return True
-        else:
-            return
-
+        
+        
         for x in range(len(self.body)):
             if self.body[x].pos in list(map(lambda z:z.pos,self.body[x+1:])):
                 print('Score: ', len(self.body))
                 self.reset((10,10))
                 return True
-                break
-            else:
-                return False
+
+        
+
+        return False
+        
+        
+        
+
+        
 
 
     
