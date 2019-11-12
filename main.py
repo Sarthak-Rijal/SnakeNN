@@ -4,8 +4,6 @@ import pygame
 from snake import *
 from cube import *
 import math
-import tkinter as tk
-from tkinter import messagebox
 
 
 
@@ -25,8 +23,8 @@ def drawGrid(w, rows, surface):
 def redrawWindow(surface):
     global rows, width, s, snack
     surface.fill((0,0,0))
-    s.draw(surface)
-    snack.draw(surface)
+    #s.draw(surface)
+    #snack.draw(surface)
     drawGrid(width,rows, surface)
     pygame.display.update()
 
@@ -63,22 +61,39 @@ def main():
     rows = 20
     win = pygame.display.set_mode((width, width))
     
-    s = snake((255,0,0), (10,10))
-    snack = cube(randomSnack(rows, s), color=(0,255,0))
+    #s = snake((255,0,0), (10,10))
+    test = snake((255,0,0,), (10,10))
+    #snack = cube(randomSnack(rows, s), color=(0,255,0))
 
     flag = True
     clock = pygame.time.Clock()
     
     while flag:
-        #pygame.time.delay(500)
-        clock.tick(10)
-        s.move(snack.pos)
+        pygame.time.delay(100)
+        clock.tick(100)
 
-        if s.body[0].pos == snack.pos:
-            s.addCube()
-            snack = cube(randomSnack(rows, s), color=(0,255,0))
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
 
-        print(s.dead()) #check for death
-        redrawWindow(win)
+        #s.move(snack.pos)
+
+        #if s.body[0].pos == snack.pos:
+          #  s.addCube()
+         #   snack = cube(randomSnack(rows, s), color=(0,255,0))
+
+
+        #print(s.seeingAlgo(snack.pos))
+
+        #print(s.dead()) #check for death
+        
+        win.fill((0,0,0))
+        test.update(win)
+        #snack.draw(surface)
+        drawGrid(width,rows, win)
+        pygame.display.update()
+        
+        
+        #redrawWindow(win)
 
 main()

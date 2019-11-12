@@ -1,0 +1,4 @@
+HEAD = "HEAD"
+BODY = "BODY"
+FOOD = "FOOD"
+BORDER = "BORDER"

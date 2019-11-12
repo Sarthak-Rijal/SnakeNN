@@ -4,7 +4,6 @@ import pygame
 from snake import *
 from cube import *
 import math
-import tkinter as tk
 from tkinter import messagebox
 
 
