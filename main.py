@@ -62,7 +62,7 @@ def main():
     win = pygame.display.set_mode((width, width))
     
     #s = snake((255,0,0), (10,10))
-    test = snake((255,0,0,), (10,10))
+    test = snake((255,0,0,), (1,0))
     #snack = cube(randomSnack(rows, s), color=(0,255,0))
 
     flag = True
