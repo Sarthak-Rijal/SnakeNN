@@ -2,8 +2,6 @@ import math
 import random
 import pygame
 import math
-import tkinter as tk
-from tkinter import messagebox
 
 class cube(object):
     rows = 20
@@ -130,7 +128,8 @@ class snake(object):
                 if(downbody[u] == self.body[x].pos[1]):
                     do = 1    
 
-        return [up, ri, do, le]   
+        return [up, ri, do, le]  
+
 
     def seeingAlgo(self, snackPos):
 
@@ -181,6 +180,7 @@ class snake(object):
 
             keys = pygame.key.get_pressed()
 
+
             for key in keys:
                 if keys[pygame.K_LEFT]:
                     self.moveLeft()
@@ -196,6 +196,9 @@ class snake(object):
 
 
         self.seeingAlgo(snackPos)
+        print(self.vision)
+        #print(self.detectbody())
+        #print(self.detectwall())
 
         
 
@@ -288,7 +291,6 @@ def randomSnack(rows, item):
 
 
 def message_box(subject, content):
-    root = tk.Tk()
     root.attributes("-topmost", True)
     root.withdraw()
     messagebox.showinfo(subject, content)
